@@ -1,0 +1,11 @@
+GET https://graph.threads.net/v1.0/me?access_token=THAAJqS8fUal5BYlZAFRVBWOU93TnlpcUo0aHNPNmVZAMlIwLXFZARU5xVE1GSEl3RzdVQ09KdjBHVVI5SHltMjJ5TzRSQUhfZAEZAhbkotdXl0M3BKczZAVMF8xZAmhmMVBIMTlsTnpXNklTc3Rlck0tNFc5WTFiWjVSVU5iaEFDdEJjWkxlZAwZDZD
+
+###
+post http://localhost:3000/api/container?type=text&text=HelloWorld123
+###
+post http://localhost:3000/api/carousel
+###
+GET http://localhost:3000/auth
+###
+post http://localhost:3000/api/container?type=image&text=HelloWorld&image_url=https%3A%2F%2Fres.cloudinary.com%2Fds4zlrovz%2Fimage%2Fupload%2Ffl_preserve_transparency%2Fv1744196367%2Fcld-sample-4.jpg%3F_s%3Dpublic-apps
+###
