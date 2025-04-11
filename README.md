@@ -1,19 +1,17 @@
 # threads-mcp
 
-This project is a TypeScript-based web application using Express. It serves as a sample project to demonstrate the structure and organization of a typical Express application.
+This project is a TypeScript-based Node MCP (Model Context Protocol) Server. 
 
 ## Project Structure
 
 ```
 threads-mcp
 ├── src
-│   ├── app.ts                # Entry point of the application
-│   ├── controllers           # Contains controllers for handling requests
-│   │   └── index.ts          # Index controller
-│   ├── routes                # Contains route definitions
-│   │   └── index.ts          # Route setup
-│   └── types                 # Type definitions
-│       └── index.ts          # Custom types for requests and responses
+│   ├── index.ts                # Entry point of the application
+│   ├── stock-photos.ts         # Unsplash http client
+│   ├── threads-api.ts           # Threads Api HTTP Client
+│   ├── threads-server.ts        # Threads MCP Server
+│   └── types.ts                # Type definitions
 ├── package.json              # NPM package configuration
 ├── tsconfig.json             # TypeScript configuration
 └── README.md                 # Project documentation
