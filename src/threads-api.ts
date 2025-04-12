@@ -19,6 +19,7 @@ export class ThreadsApi {
         this.redirectUri = config.redirectUri;
         this.longToken = config.longToken;
         this.unsplashClient = new UnsplashApi(config);
+        axios.defaults.timeout = 40000;
     }
 
     async createTextContainer(inputText: string): Promise<string[] | undefined> {
@@ -46,6 +47,24 @@ export class ThreadsApi {
         }
     }
 
+    async createImageContainer(topic: string, isCarousel: boolean, inputText: string = ""): Promise<string[] | undefined> {
+        const imageUrls = await this.unsplashClient.searchPhotosByQuery(topic, 2);
+        try {
+            let mediaIds: string[] = []
+            for (const imageUrl of imageUrls) {
+                const id = await this.createSingleImage(imageUrl, isCarousel ? "" : inputText);
+                await new Promise(resolve => setTimeout(resolve, 10000));
+                mediaIds.push(id)
+            }
+
+            console.error(`mediaIds after createImageContainer are ${mediaIds.join(",")}`)
+            return mediaIds;
+        } catch (error) {
+            console.error(`Error in creating image container , imageurls are ${imageUrls.join(",")}`);
+            return undefined;
+        }
+    }
+
     async publishContainer(mediaId: string): Promise<string | undefined> {
         try {
             const publishUrl = `${this.host}/v1.0/${this.initialUserId}/threads_publish`;
@@ -67,24 +86,6 @@ export class ThreadsApi {
         }
     }
 
-    async createImageContainer(topic: string, isCarousel: boolean, inputText: string = ""): Promise<string[] | undefined> {
-        const imageUrls = await this.unsplashClient.searchPhotosByQuery(topic, 2);
-        try {
-            let mediaIds: string[] = []
-            for (const imageUrl of imageUrls) {
-                const id = await this.createSingleImage(imageUrl, isCarousel ? "" : inputText);
-                mediaIds.push(id)
-            }
-
-            console.error(`mediaIds are ${mediaIds.join(",")}`)
-            return mediaIds;
-        } catch (error) {
-            console.error(`Error in creating image container , imageurls are ${imageUrls.join(",")}`);
-            return undefined;
-        }
-
-    }
-
     private async createSingleImage(imageUrl: string, inputText: string = ""): Promise<string> {
         try {
             let publishUrl = `${this.host}/v1.0/${this.initialUserId}/threads?media_type=IMAGE&image_url=${encodeURIComponent(imageUrl)}&access_token=${this.longToken}`;
@@ -95,7 +96,7 @@ export class ThreadsApi {
             else{
                 publishUrl = `${publishUrl}&text=${encodeURIComponent(inputText)}`
             }
-            console.error(`inputText is ${inputText}, publishUrl is ${publishUrl}`)
+
             const publishRes = await axios.post<{ id: string }>(publishUrl,
                 {
                     headers: {

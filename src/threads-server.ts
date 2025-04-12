@@ -59,7 +59,7 @@ export class ThreadsServer {
             tools: [
                 {
                     name: 'post_thread',
-                    description: 'Post a new thread to Threads',
+                    description: 'Create a new post to Threads',
                     inputSchema: {
                         type: 'object',
                         properties: {
@@ -136,17 +136,18 @@ export class ThreadsServer {
             return this.handleError(new ThreadsError(`Failed to create container, containerId is ${containerId?.join(',')}`, 'CONTAINER_CREATION_FAILED'));
         }
 
-        await new Promise(resolve => setTimeout(resolve, 15000));
+        await new Promise(resolve => setTimeout(resolve, 20000));
 
         if (containerId.length == 1) {
             mediaId = await this.client.publishContainer(containerId[0])
         } else {
             const carouselId = await this.client.createCarouselContainer(containerId, text)
+            console.error(`carousel container after createCarouselContainer are ${carouselId}`)
             if (carouselId) {
                 mediaId = await this.client.publishContainer(carouselId)
             }
         }
-
+        console.error(`result of publishing are ${mediaId}`)
         const successMessage = `Threads posted successfully !\nURL: https://threads.com/status/${mediaId}`
 
         return {
