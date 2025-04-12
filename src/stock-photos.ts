@@ -37,16 +37,15 @@ export class UnsplashApi {
 
   async searchPhotosByQuery(searchTerm: string, numberOfPhotos: number = 3): Promise<string[]> {
     try {
-      var apiResponse = await this.unsplashApi.search.getPhotos({
-        query: searchTerm,
-        perPage: numberOfPhotos,
-      });
+    
+      const apiResponse = await this.unsplashApi.photos.getRandom({query : searchTerm, count: numberOfPhotos})
 
       if (apiResponse.type !== 'success') {
         return [];
       }
 
-      const photoUrls = apiResponse.response.results.map((photo: UnsplashPhoto) => photo.urls.small);
+      const photoUrls = (apiResponse.response as UnsplashPhoto[]).map((photo: UnsplashPhoto) => photo.urls.small);
+
       return photoUrls;
     } catch (error) {
       console.error('Error fetching photos:', error);
