@@ -7,8 +7,8 @@ export const ConfigSchema = z.object({
     appId: z.string().min(1, 'App Id is required'),
     appSecret: z.string().min(1, 'APP Secret is required'),
     initialUserId: z.string().min(1, 'User id is required'),
-    longToken: z.string().min(1, 'Long TOken is required'),
-    unsplashAccessKey:  z.string().min(1, 'Unsplash Key is required'),
+    longToken: z.string().min(1, 'Long TOken is required').optional(),
+    unsplashAccessKey: z.string().min(1, 'Unsplash Key is required'),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -19,6 +19,12 @@ export const PostThreadschema = z.object({
     carousel: z.boolean().optional(),
     photosIncluded: z.boolean(),
 });
+
+export const AuthCodeSchema = z.object({
+    url: z.string()
+})
+
+export type AuthCodeArgs = z.infer<typeof AuthCodeSchema>;
 
 export type PostThreadsArgs = z.infer<typeof PostThreadschema>;
 

@@ -55,15 +55,14 @@ npm start
         "/Users/path/to/project/build/index.js"
       ],
       "env": {
-        "ACCESS_TOKEN": "access_token",
         "HOST": "https://graph.threads.net",
         "APP_ID": "threads_app_id",
         "APP_SECRET": "threads_app_secret",
         "REDIRECT_URI": "public_url",
-        "PORT": "3000",
-        "INITIAL_USER_ID": "user_id",
+        "LONG_TOKEN": "threads_long_live_token",
+        "INITIAL_USER_ID": "threads_user_id",
         "UNSPLASH_ACCESS_KEY":"access_key",
-        "LONG_TOKEN": "long_live_token"
+        "PORT": "3000",
       }
     },
 }

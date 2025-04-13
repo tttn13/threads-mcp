@@ -17,7 +17,7 @@ export class ThreadsApi {
         this.appSecret = config.appSecret || '';
         this.initialUserId = config.initialUserId || '';
         this.redirectUri = config.redirectUri;
-        this.longToken = config.longToken;
+        this.longToken = config.longToken || "";
         this.unsplashClient = new UnsplashApi(config);
         axios.defaults.timeout = 40000;
     }
@@ -164,4 +164,5 @@ export class ThreadsApi {
             throw error;
         }
     }
+    
 }
