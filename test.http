@@ -1,5 +1,4 @@
 GET https://graph.threads.net/v1.0/me?access_token=THAAJqS8fUal5BYlZAFRVBWOU93TnlpcUo0aHNPNmVZAMlIwLXFZARU5xVE1GSEl3RzdVQ09KdjBHVVI5SHltMjJ5TzRSQUhfZAEZAhbkotdXl0M3BKczZAVMF8xZAmhmMVBIMTlsTnpXNklTc3Rlck0tNFc5WTFiWjVSVU5iaEFDdEJjWkxlZAwZDZD
-
 ###
 post http://localhost:3000/api/container?type=text&text=HelloWorld123
 ###

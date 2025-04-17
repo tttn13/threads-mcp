@@ -18,6 +18,18 @@ threads-mcp
 ```
 
 ## Quick Start
+### Prerequisites 
+- Obtain the API Key from Unsplash
+- Create an app on Meta Developer platform https://developers.facebook.com/apps 
+- Choose ___Access The Threads API___ as use case 
+- On main dashboard, click ___Access The Threads API___ > ___Settings___ > Enter ___Redirect Callback URLS___ 
+- Obtain these keys : **Threads App ID** , **Threads App secret** , **Redirect Callback URL** and save them in the env section of **threads-dev** in the config file :
+
+```
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`  
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+```
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/tttn13/threads-mcp
@@ -39,8 +51,7 @@ npm run build
 npm start
 ```
 
-5. Create a Threads Developer account and get your API keys 
-
+5. Create a Meta Developer account and get your keys 
 
 6. Add this configuration to your Claude Desktop config file:
 
@@ -59,7 +70,6 @@ npm start
         "APP_ID": "threads_app_id",
         "APP_SECRET": "threads_app_secret",
         "REDIRECT_URI": "public_url",
-        "LONG_TOKEN": "threads_long_live_token",
         "INITIAL_USER_ID": "threads_user_id",
         "UNSPLASH_ACCESS_KEY":"access_key",
         "PORT": "3000",
@@ -70,7 +80,7 @@ npm start
 
 3. Restart Claude Desktop
 
-That's it! Claude can now interact with Threads through 1 tool:
+That's it, the tool is officially connected to Claude Desktop! You still need to go through an authorization process to obtain the long lived token but dw, Claude will walk you through it. 
 
 - `post_thread`: Post a new thread and fetch stock photos from Unsplash
 

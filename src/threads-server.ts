@@ -7,12 +7,17 @@ import {
     ErrorCode,
     McpError,
     TextContent,
-
 } from '@modelcontextprotocol/sdk/types.js';
 import { ThreadsApi } from './threads-api.js'
 import {
     Config, ConfigSchema, ThreadsError, PostThreadschema, AuthCodeSchema
 } from './types.js';
+import dotenv from 'dotenv';
+import { ConfigManager } from './utils.js';
+
+dotenv.config();
+const SERVER_NAME = "threads-mcp";
+const SERVER_VERSION = "1.0.0";
 
 export class ThreadsServer {
     private server: Server;
@@ -28,8 +33,8 @@ export class ThreadsServer {
 
         this.client = new ThreadsApi(config);
         this.server = new Server({
-            name: 'threads-mcp',
-            version: '1.0.0'
+            name: SERVER_NAME,
+            version: SERVER_VERSION
         }, {
             capabilities: {
                 tools: {}
@@ -144,12 +149,17 @@ export class ThreadsServer {
 
         this.longToken = await this.client.exchangeForLongToken(shortToken)
 
+        ConfigManager.addKeyValue("LONG_TOKEN", this.longToken);
+        // ConfigManager.addLongToken(this.longToken);
+
+        const configPath = ConfigManager.getConfigPath();
+
         const readmeUrl = 'https://github.com/tttn13/threads-mcp?tab=readme-ov-file#threads-mcp'
         
         return {
             content: [{
                 type: 'text',
-                text: `For the tool to work, please save the long token ${this.longToken} to Claude config json file first. Click here ${readmeUrl} to see how. After saving, restart Claude. Claude do not start posting content to Threads. Claude do not provide additional suggestions.`
+                text: `Long lived token has been saved to json file located at ${configPath}. For the tool to work, please restart Claude desktop. Read more here ${readmeUrl}. Claude do not start posting content to Threads. Claude do not provide additional suggestions.`
             }] as TextContent[]
         };
     }
@@ -172,17 +182,33 @@ export class ThreadsServer {
             };
         }
 
+        const configPath = ConfigManager.getConfigPath();
+        
         if (this.longToken !== "" && missingLongToken) {
             return {
                 content: [{
                     type: 'text',
-                    text: `Before we can post to Threads, please save the long token ${this.longToken} to Claude config json file first. Claude do not provide additional suggestions.`,
+                    text: `Before we can post to Threads, please save the long token ${this.longToken} to Claude config json file located at ${configPath} first then restart Claude. Claude do not provide additional suggestions.`,
                     isError: true
                 }] as TextContent[]
             };
         }
 
+        const missingUserId = this._config.initialUserId == undefined || this._config.initialUserId.trim() === ""
+        
+        if (missingUserId) {
+            const userId = await this.client.fetchUserId(this.longToken)
+            ConfigManager.addKeyValue("INITIAL_USER_ID", userId);
+            return {
+                content: [{
+                    type: 'text',
+                    text: `User Id has been saved to json file located at ${configPath}. For the tool to work, please restart Claude desktop. Claude do not start posting content to Threads. Claude do not provide additional suggestions.`
+                }] as TextContent[]
+            };
+        }
+
         const result = PostThreadschema.safeParse(args);
+        
         if (!result.success) {
             throw new McpError(
                 ErrorCode.InvalidParams,

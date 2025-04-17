@@ -164,5 +164,14 @@ export class ThreadsApi {
             throw error;
         }
     }
-    
+
+    async fetchUserId(accessToken: string): Promise<string> {
+        try {
+            const url = `${this.host}/v1.0/me?access_token=${accessToken}`;
+            const response = await axios.get<{ id: string }>(url);
+            return response.data.id;
+        } catch (error) {
+            throw error;
+        }
+    }
 }

@@ -11,6 +11,16 @@ export const ConfigSchema = z.object({
     unsplashAccessKey: z.string().min(1, 'Unsplash Key is required'),
 });
 
+export enum ServerMode {
+    STDIO = "stdio",
+    SSE = "sse",
+}
+
+export interface ServerConfig {
+    mode: ServerMode;
+    port?: number;
+}
+
 export type Config = z.infer<typeof ConfigSchema>;
 
 export const PostThreadschema = z.object({
@@ -42,3 +52,8 @@ export class ThreadsError extends Error {
         return error instanceof ThreadsError && error.code === 'rate_limit_exceeded';
     }
 }
+
+export interface ThServer {
+    start(): Promise<void>;
+    shutdown(code?: number): Promise<never>;
+  }

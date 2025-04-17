@@ -8,25 +8,6 @@ export class UnsplashApi {
   private unsplashApi;
 
   constructor(config: Config) {
-    const fetchWithTimeout = (url: string, options: RequestInit = {}) => {
-      // Set timeout to 30 seconds (30000ms) or any duration you prefer
-      const timeoutDuration = 30000;
-      
-      const controller = new AbortController();
-      const { signal } = controller;
-      
-      const timeout = setTimeout(() => {
-        controller.abort();
-      }, timeoutDuration);
-      
-      const fetchOptions: RequestInit = {
-        ...options,
-        signal
-      };
-      
-      return nodeFetch(url, fetchOptions)
-        .finally(() => clearTimeout(timeout));
-    };
 
     this.unsplashApi = createApi({
       accessKey: config.unsplashAccessKey || "",
