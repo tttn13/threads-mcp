@@ -1,6 +1,11 @@
 # threads-mcp
 
-This project is a TypeScript-based Node MCP (Model Context Protocol) Server that would create post to Threads (a social media platform by Meta). The goal of this project is to have the LLM generate a complete social media post—something ready to publish on Threads alongside the images. So the MCP server handled both retrieving relevant visual content and orchestrating the model’s output into something directly usable. It turned a simple query like ‘cats’ into a polished post with supporting visuals, all through a coordinated flow.
+This project is a TypeScript-based Node MCP (Model Context Protocol) Server that would create post to Threads (a social media platform by Meta). 
+
+The goal of this project is to have the LLM generate a complete social media post—something ready to publish on Threads alongside the images. So the MCP server handled both retrieving relevant visual content and orchestrating the model’s output into something directly usable. It turned a simple query like ‘cats’ into a polished post with supporting visuals, all through a coordinated flow.
+
+
+![Diagram](https://github.com/tttn13/threads-mcp/blob/main/assets/MCP-chart.png)
 
 ## Project Structure
 
